@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           background: const Color.fromRGBO(229, 233, 255, 1),
         ),
       ),
-      home: const HomePage(),
+      home: const FirstQuestionPage(),
       debugShowCheckedModeBanner: false,
     );
   }
