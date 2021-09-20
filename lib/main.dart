@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'ui/pages/last_page.dart';
 
 import 'ui/pages/pages.dart';
 
@@ -21,7 +22,14 @@ class MyApp extends StatelessWidget {
           background: const Color.fromRGBO(229, 233, 255, 1),
         ),
       ),
-      home: const FirstQuestionPage(),
+      initialRoute: '/home',
+      routes: {
+        '/home': (context) => const HomePage(),
+        '/first': (context) => const FirstQuestionPage(),
+        '/second': (context) => const SecondQuestionPage(),
+        '/third': (context) => const ThirdQuestionPage(),
+        '/last': (context) => const LastPage(),
+      },
       debugShowCheckedModeBanner: false,
     );
   }

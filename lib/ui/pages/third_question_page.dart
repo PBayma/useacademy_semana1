@@ -1,25 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:useacademy_semana1/model/score.dart';
 
 import '../../data/questions.dart';
 import '../../model/answer.dart';
 import '../../model/question.dart';
+import '../../model/score.dart';
 
-class FirstQuestionPage extends StatefulWidget {
-  const FirstQuestionPage({Key? key}) : super(key: key);
+class ThirdQuestionPage extends StatefulWidget {
+  const ThirdQuestionPage({Key? key}) : super(key: key);
 
   @override
-  State<FirstQuestionPage> createState() => _FirstQuestionPageState();
+  State<ThirdQuestionPage> createState() => _ThirdQuestionPageState();
 }
 
-class _FirstQuestionPageState extends State<FirstQuestionPage> {
-  Score score = Score(rightAnswers: 0);
-
+class _ThirdQuestionPageState extends State<ThirdQuestionPage> {
   @override
   Widget build(BuildContext context) {
-    Question question = firstQuestion;
+    Score score = ModalRoute.of(context)!.settings.arguments as Score;
+
+    Question question = thirdQuestion;
 
     Color getColor(Set<MaterialState> states) {
       const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -261,7 +261,7 @@ class _FirstQuestionPageState extends State<FirstQuestionPage> {
                                   }
                                 }
                               : () {
-                                  Navigator.pushNamed(context, '/second',
+                                  Navigator.pushNamed(context, '/last',
                                       arguments: score);
                                 }),
                 )

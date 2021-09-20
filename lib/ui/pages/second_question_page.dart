@@ -1,25 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:useacademy_semana1/model/score.dart';
 
 import '../../data/questions.dart';
 import '../../model/answer.dart';
 import '../../model/question.dart';
+import '../../model/score.dart';
 
-class FirstQuestionPage extends StatefulWidget {
-  const FirstQuestionPage({Key? key}) : super(key: key);
+class SecondQuestionPage extends StatefulWidget {
+  const SecondQuestionPage({Key? key}) : super(key: key);
 
   @override
-  State<FirstQuestionPage> createState() => _FirstQuestionPageState();
+  State<SecondQuestionPage> createState() => _SecondQuestionPageState();
 }
 
-class _FirstQuestionPageState extends State<FirstQuestionPage> {
-  Score score = Score(rightAnswers: 0);
-
+class _SecondQuestionPageState extends State<SecondQuestionPage> {
   @override
   Widget build(BuildContext context) {
-    Question question = firstQuestion;
+    Score score = ModalRoute.of(context)!.settings.arguments as Score;
+    Question question = secondQuestion;
 
     Color getColor(Set<MaterialState> states) {
       const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -244,6 +243,7 @@ class _FirstQuestionPageState extends State<FirstQuestionPage> {
                                           index) {
                                         question.answers[index]
                                             .flagRightAnswer = true;
+
                                         score.rightAnswers += 1;
                                       } else {
                                         question
@@ -261,7 +261,7 @@ class _FirstQuestionPageState extends State<FirstQuestionPage> {
                                   }
                                 }
                               : () {
-                                  Navigator.pushNamed(context, '/second',
+                                  Navigator.pushNamed(context, '/third',
                                       arguments: score);
                                 }),
                 )

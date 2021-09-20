@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../model/score.dart';
 
-class QuestionaryFinishedPage extends StatelessWidget {
-  const QuestionaryFinishedPage({Key? key}) : super(key: key);
+class LastPage extends StatelessWidget {
+  const LastPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Score score = ModalRoute.of(context)!.settings.arguments as Score;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Perguntas e respostas'),
@@ -50,9 +53,9 @@ class QuestionaryFinishedPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                const Text(
-                  '5/10 Acertos',
-                  style: TextStyle(
+                Text(
+                  '${score.rightAnswers}/3 Acertos',
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -62,7 +65,10 @@ class QuestionaryFinishedPage extends StatelessWidget {
                     "Tentar Novamente",
                     style: TextStyle(fontSize: 16),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/home', (route) => true);
+                  },
                 )
               ],
             ),

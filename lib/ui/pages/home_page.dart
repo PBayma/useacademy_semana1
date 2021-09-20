@@ -55,7 +55,9 @@ class HomePage extends StatelessWidget {
               ),
               ElevatedButton(
                 child: const Text("Start!"),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/first');
+                },
                 style: style,
               )
             ],
