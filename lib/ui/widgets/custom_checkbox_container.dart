@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 class CustomCheckboxContainer extends StatelessWidget {
   final Function()? onTap;
   final String text;
-  final bool selecionado;
-  final bool resposta;
-  final bool verdade;
+  final bool selected;
+  final bool answer;
+  final bool isTrue;
   const CustomCheckboxContainer({
     Key? key,
     this.onTap,
     required this.text,
-    this.selecionado = false,
-    this.resposta = false,
-    this.verdade = false,
+    this.selected = false,
+    this.answer = false,
+    this.isTrue = false,
   }) : super(key: key);
 
   @override
@@ -28,20 +28,20 @@ class CustomCheckboxContainer extends StatelessWidget {
             width: double.infinity,
             decoration: BoxDecoration(
               border: Border.all(
-                color: !selecionado
+                color: !selected
                     ? const Color.fromRGBO(227, 227, 227, 1)
-                    : !resposta
+                    : !answer
                         ? const Color.fromRGBO(117, 140, 255, 1)
-                        : verdade
+                        : isTrue
                             ? const Color.fromRGBO(56, 197, 61, 1)
                             : const Color.fromRGBO(255, 90, 90, 1),
               ),
               borderRadius: BorderRadius.circular(16),
-              color: !selecionado
+              color: !selected
                   ? Colors.white
-                  : !resposta
+                  : !answer
                       ? const Color.fromRGBO(229, 233, 255, 1)
-                      : verdade
+                      : isTrue
                           ? const Color.fromRGBO(229, 255, 230, 1)
                           : const Color.fromRGBO(255, 214, 214, 1),
             ),
@@ -50,7 +50,7 @@ class CustomCheckboxContainer extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  !selecionado
+                  !selected
                       ? Container(
                           height: 25,
                           width: 25,
@@ -62,7 +62,7 @@ class CustomCheckboxContainer extends StatelessWidget {
                             color: Colors.white,
                           ),
                         )
-                      : !resposta
+                      : !answer
                           ? Container(
                               height: 25,
                               width: 25,
@@ -76,7 +76,7 @@ class CustomCheckboxContainer extends StatelessWidget {
                                 color: Colors.white,
                               ),
                             )
-                          : verdade
+                          : isTrue
                               ? Container(
                                   height: 25,
                                   width: 25,

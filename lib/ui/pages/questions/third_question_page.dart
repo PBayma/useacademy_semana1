@@ -77,9 +77,9 @@ class _ThirdQuestionPageState extends State<ThirdQuestionPage> {
                     ),
                     itemBuilder: (context, index) => CustomCheckboxContainer(
                       text: question.answers[index].answer,
-                      resposta: finishedQuestion,
-                      selecionado: question.answers[index].selected,
-                      verdade: question.answers[index].flagRightAnswer,
+                      answer: finishedQuestion,
+                      selected: question.answers[index].selected,
+                      isTrue: question.answers[index].flagRightAnswer,
                       onTap: () {
                         for (Answer answer in question.answers) {
                           if (answer.selected == true &&
