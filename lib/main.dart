@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         '/first': (context) => const FirstQuestionPage(),
         '/second': (context) => const SecondQuestionPage(),
         '/third': (context) => const ThirdQuestionPage(),
-        '/last': (context) => const ResultPage(),
+        '/result': (context) => const ResultPage(),
       },
       debugShowCheckedModeBanner: false,
     );

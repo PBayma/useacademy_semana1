@@ -61,30 +61,30 @@ final secondQuestion = Question(
 );
 
 final thirdQuestion = Question(
-  question: 'Qual sua idade?',
+  question: 'Qual sua altura?',
   answers: [
     Answer(
-        answer: '23',
+        answer: '1.80',
         selected: false,
         flagWrongAnswer: false,
         flagRightAnswer: false),
     Answer(
-        answer: '24',
+        answer: '1.83',
         selected: false,
         flagWrongAnswer: false,
         flagRightAnswer: false),
     Answer(
-        answer: '26',
+        answer: '1.78',
         selected: false,
         flagWrongAnswer: false,
         flagRightAnswer: false),
     Answer(
-        answer: '22',
+        answer: '1.86',
         selected: false,
         flagWrongAnswer: false,
         flagRightAnswer: false)
   ],
-  indexCorrectAnswer: 1,
+  indexCorrectAnswer: 3,
   finishedQuestion: false,
   answerSelected: false,
 );

@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:useacademy_semana1/ui/widgets/custom_elevated_button.dart';
 
 import '../../../data/questions.dart';
 import '../../../model/answer.dart';
 import '../../../model/question.dart';
 import '../../../model/score.dart';
 import '../../widgets/custom_app_bar.dart';
+import '../../widgets/custom_checkbox_container.dart';
+import '../../widgets/custom_elevated_button.dart';
 
 class ThirdQuestionPage extends StatefulWidget {
   const ThirdQuestionPage({Key? key}) : super(key: key);
@@ -17,47 +18,31 @@ class ThirdQuestionPage extends StatefulWidget {
 }
 
 class _ThirdQuestionPageState extends State<ThirdQuestionPage> {
+  late bool answerSelected;
+  late bool finishedQuestion;
+  late Question question;
+  late Score score;
+
+  @override
+  void initState() {
+    question = thirdQuestion;
+    answerSelected = false;
+    finishedQuestion = false;
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    question = thirdQuestion;
+    answerSelected = false;
+    finishedQuestion = false;
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Score score = ModalRoute.of(context)!.settings.arguments as Score;
-
-    Question question = thirdQuestion;
-
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return Colors.blue;
-      }
-      return const Color.fromRGBO(117, 140, 255, 1);
-    }
-
-    Color getColorRightAnswer(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return Colors.green;
-      }
-      return const Color.fromRGBO(56, 197, 61, 1);
-    }
-
-    Color getColorWrongAnswer(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return Colors.red;
-      }
-      return const Color.fromRGBO(255, 90, 90, 1);
-    }
 
     return Scaffold(
       appBar: const CustomAppBar(),
@@ -88,116 +73,40 @@ class _ThirdQuestionPageState extends State<ThirdQuestionPage> {
                   child: ListView.separated(
                     itemCount: firstQuestion.answers.length,
                     separatorBuilder: (context, index) => const SizedBox(
-                      height: 16,
+                      height: 8,
                     ),
-                    itemBuilder: (context, index) => Container(
-                      alignment: Alignment.topRight,
-                      height: MediaQuery.of(context).size.height * 0.13,
-                      decoration: question.finishedQuestion == false
-                          ? BoxDecoration(
-                              color: question.answers[index].selected == false
-                                  ? Colors.white
-                                  : Theme.of(context).colorScheme.background,
-                              border: Border.all(
-                                color: question.answers[index].selected == false
-                                    ? const Color.fromRGBO(227, 227, 227, 1)
-                                    : const Color.fromRGBO(117, 140, 255, 1),
-                              ),
-                              borderRadius: BorderRadius.circular(16),
-                            )
-                          : question.answers[index].flagRightAnswer == false &&
-                                  question.answers[index].flagWrongAnswer ==
-                                      false
-                              ? BoxDecoration(
-                                  color:
-                                      question.answers[index].selected == false
-                                          ? Colors.white
-                                          : Theme.of(context)
-                                              .colorScheme
-                                              .background,
-                                  border: Border.all(
-                                    color: question.answers[index].selected ==
-                                            false
-                                        ? const Color.fromRGBO(227, 227, 227, 1)
-                                        : const Color.fromRGBO(
-                                            117, 140, 255, 1),
-                                  ),
-                                  borderRadius: BorderRadius.circular(16),
-                                )
-                              : question.answers[index].flagWrongAnswer == false
-                                  ? BoxDecoration(
-                                      color: const Color.fromRGBO(
-                                          229, 255, 230, 1),
-                                      border: Border.all(
-                                          color: const Color.fromRGBO(
-                                              56, 197, 61, 1)),
-                                      borderRadius: BorderRadius.circular(16),
-                                    )
-                                  : BoxDecoration(
-                                      color: const Color.fromRGBO(
-                                          255, 214, 214, 1),
-                                      border: Border.all(
-                                          color: const Color.fromRGBO(
-                                              255, 90, 90, 1)),
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                      child: Row(
-                        children: [
-                          Checkbox(
-                            value: question.answers[index].selected,
-                            onChanged: (value) {
-                              for (Answer answer in question.answers) {
-                                if (answer.selected == true &&
-                                    answer.selected !=
-                                        question.answers[index].selected) {
-                                  answer.selected = false;
-                                }
-                              }
-                              setState(() {
-                                if (question.answers[index].selected == true) {
-                                  question.answerSelected = false;
-                                } else {
-                                  question.answerSelected = true;
-                                }
-                                question.answers[index].selected = value!;
-                              });
-                            },
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            fillColor: question.finishedQuestion == false
-                                ? MaterialStateProperty.resolveWith(getColor)
-                                : question.answers[index].flagRightAnswer ==
-                                            false &&
-                                        question.answers[index]
-                                                .flagWrongAnswer ==
-                                            false
-                                    ? MaterialStateProperty.resolveWith(
-                                        getColor)
-                                    : question.answers[index].flagWrongAnswer ==
-                                            false
-                                        ? MaterialStateProperty.resolveWith(
-                                            getColorRightAnswer)
-                                        : MaterialStateProperty.resolveWith(
-                                            getColorWrongAnswer),
-                            checkColor: Colors.white,
-                          ),
-                          Text(
-                            question.answers[index].answer,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                        ],
-                      ),
+                    itemBuilder: (context, index) => CustomCheckboxContainer(
+                      text: question.answers[index].answer,
+                      resposta: finishedQuestion,
+                      selecionado: question.answers[index].selected,
+                      verdade: question.answers[index].flagRightAnswer,
+                      onTap: () {
+                        for (Answer answer in question.answers) {
+                          if (answer.selected == true &&
+                              answer.selected !=
+                                  question.answers[index].selected) {
+                            answer.selected = false;
+                          }
+                        }
+                        setState(() {
+                          if (question.answers[index].selected) {
+                            question.answers[index].selected = false;
+                            answerSelected = false;
+                          } else {
+                            question.answers[index].selected = true;
+                            answerSelected = true;
+                          }
+                        });
+                      },
                     ),
                   ),
                 ),
                 Align(
                     child: CustomElevetadButton(
-                  finishedQuestion: question.finishedQuestion,
-                  onPressed: question.answerSelected == false
+                  finishedQuestion: finishedQuestion,
+                  onPressed: !answerSelected
                       ? null
-                      : question.finishedQuestion == false
+                      : !finishedQuestion
                           ? () {
                               List<Answer> selectedAnswer = question.answers
                                   .where((answer) => answer.selected == true)
@@ -207,7 +116,7 @@ class _ThirdQuestionPageState extends State<ThirdQuestionPage> {
                                 int index =
                                     question.answers.indexOf(selectedAnswer[0]);
                                 setState(() {
-                                  question.finishedQuestion = true;
+                                  finishedQuestion = true;
                                   if (question.indexCorrectAnswer == index) {
                                     question.answers[index].flagRightAnswer =
                                         true;
@@ -219,14 +128,13 @@ class _ThirdQuestionPageState extends State<ThirdQuestionPage> {
                                     question
                                         .answers[question.indexCorrectAnswer]
                                         .selected = true;
-                                    question.answers[index].flagWrongAnswer =
-                                        true;
+                                    finishedQuestion = true;
                                   }
                                 });
                               }
                             }
                           : () {
-                              Navigator.pushNamed(context, '/last',
+                              Navigator.pushNamed(context, '/result',
                                   arguments: score);
                             },
                 ))

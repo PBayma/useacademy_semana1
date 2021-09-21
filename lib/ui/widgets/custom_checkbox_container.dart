@@ -7,14 +7,13 @@ class CustomCheckboxContainer extends StatelessWidget {
   final bool selecionado;
   final bool resposta;
   final bool verdade;
-
   const CustomCheckboxContainer({
     Key? key,
     this.onTap,
+    required this.text,
     this.selecionado = false,
     this.resposta = false,
     this.verdade = false,
-    required this.text,
   }) : super(key: key);
 
   @override

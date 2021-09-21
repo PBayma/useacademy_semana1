@@ -18,12 +18,16 @@ class FirstQuestionPage extends StatefulWidget {
 }
 
 class _FirstQuestionPageState extends State<FirstQuestionPage> {
+  late bool answerSelected;
+  late bool finishedQuestion;
   late Question question;
   late Score score;
 
   @override
   void initState() {
     question = firstQuestion;
+    answerSelected = false;
+    finishedQuestion = false;
     score = Score(rightAnswers: 0);
 
     super.initState();
@@ -32,48 +36,14 @@ class _FirstQuestionPageState extends State<FirstQuestionPage> {
   @override
   void dispose() {
     question = firstQuestion;
+    answerSelected = false;
+    finishedQuestion = false;
     score = Score(rightAnswers: 0);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return Colors.blue;
-      }
-      return const Color.fromRGBO(117, 140, 255, 1);
-    }
-
-    Color getColorRightAnswer(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return Colors.green;
-      }
-      return const Color.fromRGBO(56, 197, 61, 1);
-    }
-
-    Color getColorWrongAnswer(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return Colors.red;
-      }
-      return const Color.fromRGBO(255, 90, 90, 1);
-    }
-
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SafeArea(
@@ -101,128 +71,42 @@ class _FirstQuestionPageState extends State<FirstQuestionPage> {
                 ),
                 Expanded(
                   child: ListView.separated(
-                      itemCount: firstQuestion.answers.length,
-                      separatorBuilder: (context, index) => const SizedBox(
-                            height: 8,
-                          ),
-                      itemBuilder: (context, index) => CustomCheckboxContainer(
-                            text: question.answers[index].answer,
-                            resposta: question.answers[index].flagWrongAnswer,
-                            selecionado: question.answers[index].selected,
-                            verdade: question.answers[index].flagRightAnswer,
-                            onTap: () {
-                              setState(() {});
-                            },
-                          )
-
-                      // Container(
-                      //   alignment: Alignment.topRight,
-                      //   height: MediaQuery.of(context).size.height * 0.13,
-                      //   decoration: question.finishedQuestion == false
-                      //       ? BoxDecoration(
-                      //           color: question.answers[index].selected == false
-                      //               ? Colors.white
-                      //               : Theme.of(context).colorScheme.background,
-                      //           border: Border.all(
-                      //             color: question.answers[index].selected == false
-                      //                 ? const Color.fromRGBO(227, 227, 227, 1)
-                      //                 : const Color.fromRGBO(117, 140, 255, 1),
-                      //           ),
-                      //           borderRadius: BorderRadius.circular(16),
-                      //         )
-                      //       : question.answers[index].flagRightAnswer == false &&
-                      //               question.answers[index].flagWrongAnswer ==
-                      //                   false
-                      //           ? BoxDecoration(
-                      //               color:
-                      //                   question.answers[index].selected == false
-                      //                       ? Colors.white
-                      //                       : Theme.of(context)
-                      //                           .colorScheme
-                      //                           .background,
-                      //               border: Border.all(
-                      //                 color: question.answers[index].selected ==
-                      //                         false
-                      //                     ? const Color.fromRGBO(227, 227, 227, 1)
-                      //                     : const Color.fromRGBO(
-                      //                         117, 140, 255, 1),
-                      //               ),
-                      //               borderRadius: BorderRadius.circular(16),
-                      //             )
-                      //           : question.answers[index].flagWrongAnswer == false
-                      //               ? BoxDecoration(
-                      //                   color: const Color.fromRGBO(
-                      //                       229, 255, 230, 1),
-                      //                   border: Border.all(
-                      //                       color: const Color.fromRGBO(
-                      //                           56, 197, 61, 1)),
-                      //                   borderRadius: BorderRadius.circular(16),
-                      //                 )
-                      //               : BoxDecoration(
-                      //                   color: const Color.fromRGBO(
-                      //                       255, 214, 214, 1),
-                      //                   border: Border.all(
-                      //                       color: const Color.fromRGBO(
-                      //                           255, 90, 90, 1)),
-                      //                   borderRadius: BorderRadius.circular(16),
-                      //                 ),
-                      //   child: Row(
-                      //     children: [
-                      //       Checkbox(
-                      //         value: question.answers[index].selected,
-                      //         onChanged: (value) {
-                      //           for (Answer answer in question.answers) {
-                      //             if (answer.selected == true &&
-                      //                 answer.selected !=
-                      //                     question.answers[index].selected) {
-                      //               answer.selected = false;
-                      //             }
-                      //           }
-                      //           setState(() {
-                      //             if (question.answers[index].selected == true) {
-                      //               question.answerSelected = false;
-                      //             } else {
-                      //               question.answerSelected = true;
-                      //             }
-                      //             question.answers[index].selected = value!;
-                      //           });
-                      //         },
-                      //         shape: RoundedRectangleBorder(
-                      //           borderRadius: BorderRadius.circular(5),
-                      //         ),
-                      //         fillColor: question.finishedQuestion == false
-                      //             ? MaterialStateProperty.resolveWith(getColor)
-                      //             : question.answers[index].flagRightAnswer ==
-                      //                         false &&
-                      //                     question.answers[index]
-                      //                             .flagWrongAnswer ==
-                      //                         false
-                      //                 ? MaterialStateProperty.resolveWith(
-                      //                     getColor)
-                      //                 : question.answers[index].flagWrongAnswer ==
-                      //                         false
-                      //                     ? MaterialStateProperty.resolveWith(
-                      //                         getColorRightAnswer)
-                      //                     : MaterialStateProperty.resolveWith(
-                      //                         getColorWrongAnswer),
-                      //         checkColor: Colors.white,
-                      //       ),
-                      //       Text(
-                      //         question.answers[index].answer,
-                      //         style: const TextStyle(
-                      //             fontWeight: FontWeight.bold, fontSize: 16),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      ),
+                    itemCount: firstQuestion.answers.length,
+                    separatorBuilder: (context, index) => const SizedBox(
+                      height: 8,
+                    ),
+                    itemBuilder: (context, index) => CustomCheckboxContainer(
+                      text: question.answers[index].answer,
+                      resposta: finishedQuestion,
+                      selecionado: question.answers[index].selected,
+                      verdade: question.answers[index].flagRightAnswer,
+                      onTap: () {
+                        for (Answer answer in question.answers) {
+                          if (answer.selected == true &&
+                              answer.selected !=
+                                  question.answers[index].selected) {
+                            answer.selected = false;
+                          }
+                        }
+                        setState(() {
+                          if (question.answers[index].selected) {
+                            question.answers[index].selected = false;
+                            answerSelected = false;
+                          } else {
+                            question.answers[index].selected = true;
+                            answerSelected = true;
+                          }
+                        });
+                      },
+                    ),
+                  ),
                 ),
                 Align(
                     child: CustomElevetadButton(
-                  finishedQuestion: question.finishedQuestion,
-                  onPressed: !question.answerSelected
+                  finishedQuestion: finishedQuestion,
+                  onPressed: !answerSelected
                       ? null
-                      : !question.finishedQuestion
+                      : !finishedQuestion
                           ? () {
                               List<Answer> selectedAnswer = question.answers
                                   .where((answer) => answer.selected == true)
@@ -232,7 +116,7 @@ class _FirstQuestionPageState extends State<FirstQuestionPage> {
                                 int index =
                                     question.answers.indexOf(selectedAnswer[0]);
                                 setState(() {
-                                  question.finishedQuestion = true;
+                                  finishedQuestion = true;
                                   if (question.indexCorrectAnswer == index) {
                                     question.answers[index].flagRightAnswer =
                                         true;
@@ -244,8 +128,7 @@ class _FirstQuestionPageState extends State<FirstQuestionPage> {
                                     question
                                         .answers[question.indexCorrectAnswer]
                                         .selected = true;
-                                    question.answers[index].flagWrongAnswer =
-                                        true;
+                                    finishedQuestion = true;
                                   }
                                 });
                               }
