@@ -1,19 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../model/score.dart';
 
-class LastPage extends StatelessWidget {
-  const LastPage({Key? key}) : super(key: key);
+import '../../../model/score.dart';
+import '../../widgets/custom_app_bar.dart';
+
+class ResultPage extends StatelessWidget {
+  const ResultPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Score score = ModalRoute.of(context)!.settings.arguments as Score;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Perguntas e respostas'),
-        centerTitle: true,
-      ),
+      appBar: const CustomAppBar(),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: Center(
@@ -67,7 +66,7 @@ class LastPage extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.pushNamedAndRemoveUntil(
-                        context, '/home', (route) => true);
+                        context, '/home', (route) => false);
                   },
                 )
               ],

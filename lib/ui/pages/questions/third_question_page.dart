@@ -1,24 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:useacademy_semana1/ui/widgets/custom_elevated_button.dart';
 
-import '../../data/questions.dart';
-import '../../model/answer.dart';
-import '../../model/question.dart';
-import '../../model/score.dart';
+import '../../../data/questions.dart';
+import '../../../model/answer.dart';
+import '../../../model/question.dart';
+import '../../../model/score.dart';
+import '../../widgets/custom_app_bar.dart';
 
-class SecondQuestionPage extends StatefulWidget {
-  const SecondQuestionPage({Key? key}) : super(key: key);
+class ThirdQuestionPage extends StatefulWidget {
+  const ThirdQuestionPage({Key? key}) : super(key: key);
 
   @override
-  State<SecondQuestionPage> createState() => _SecondQuestionPageState();
+  State<ThirdQuestionPage> createState() => _ThirdQuestionPageState();
 }
 
-class _SecondQuestionPageState extends State<SecondQuestionPage> {
+class _ThirdQuestionPageState extends State<ThirdQuestionPage> {
   @override
   Widget build(BuildContext context) {
     Score score = ModalRoute.of(context)!.settings.arguments as Score;
-    Question question = secondQuestion;
+
+    Question question = thirdQuestion;
 
     Color getColor(Set<MaterialState> states) {
       const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -56,34 +59,8 @@ class _SecondQuestionPageState extends State<SecondQuestionPage> {
       return const Color.fromRGBO(255, 90, 90, 1);
     }
 
-    final ButtonStyle styleButton = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      padding: EdgeInsets.symmetric(
-        horizontal: MediaQuery.of(context).size.width * 0.35,
-        vertical: MediaQuery.of(context).size.height * 0.025,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(32),
-      ),
-    );
-    final ButtonStyle styleButtonFinishedQuestion = ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      padding: EdgeInsets.symmetric(
-        horizontal: MediaQuery.of(context).size.width * 0.28,
-        vertical: MediaQuery.of(context).size.height * 0.025,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(32),
-      ),
-    );
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Perguntas e respostas',
-        ),
-        centerTitle: true,
-      ),
+      appBar: const CustomAppBar(),
       body: SafeArea(
         child: SizedBox.expand(
           child: Padding(
@@ -216,55 +193,43 @@ class _SecondQuestionPageState extends State<SecondQuestionPage> {
                   ),
                 ),
                 Align(
-                  child: ElevatedButton(
-                      child: question.finishedQuestion == false
-                          ? const Text('Responder')
-                          : const Text(
-                              'Proxima pergunta!',
-                            ),
-                      style: question.finishedQuestion == false
-                          ? styleButton
-                          : styleButtonFinishedQuestion,
-                      onPressed: question.answerSelected == false
-                          ? null
-                          : question.finishedQuestion == false
-                              ? () {
-                                  List<Answer> selectedAnswer = question.answers
-                                      .where(
-                                          (answer) => answer.selected == true)
-                                      .toList();
-                                  if (selectedAnswer.isEmpty) {
+                    child: CustomElevetadButton(
+                  finishedQuestion: question.finishedQuestion,
+                  onPressed: question.answerSelected == false
+                      ? null
+                      : question.finishedQuestion == false
+                          ? () {
+                              List<Answer> selectedAnswer = question.answers
+                                  .where((answer) => answer.selected == true)
+                                  .toList();
+                              if (selectedAnswer.isEmpty) {
+                              } else {
+                                int index =
+                                    question.answers.indexOf(selectedAnswer[0]);
+                                setState(() {
+                                  question.finishedQuestion = true;
+                                  if (question.indexCorrectAnswer == index) {
+                                    question.answers[index].flagRightAnswer =
+                                        true;
+                                    score.rightAnswers += 1;
                                   } else {
-                                    int index = question.answers
-                                        .indexOf(selectedAnswer[0]);
-                                    setState(() {
-                                      question.finishedQuestion = true;
-                                      if (question.indexCorrectAnswer ==
-                                          index) {
-                                        question.answers[index]
-                                            .flagRightAnswer = true;
-
-                                        score.rightAnswers += 1;
-                                      } else {
-                                        question
-                                            .answers[
-                                                question.indexCorrectAnswer]
-                                            .flagRightAnswer = true;
-                                        question
-                                            .answers[
-                                                question.indexCorrectAnswer]
-                                            .selected = true;
-                                        question.answers[index]
-                                            .flagWrongAnswer = true;
-                                      }
-                                    });
+                                    question
+                                        .answers[question.indexCorrectAnswer]
+                                        .flagRightAnswer = true;
+                                    question
+                                        .answers[question.indexCorrectAnswer]
+                                        .selected = true;
+                                    question.answers[index].flagWrongAnswer =
+                                        true;
                                   }
-                                }
-                              : () {
-                                  Navigator.pushNamed(context, '/third',
-                                      arguments: score);
-                                }),
-                )
+                                });
+                              }
+                            }
+                          : () {
+                              Navigator.pushNamed(context, '/last',
+                                  arguments: score);
+                            },
+                ))
               ],
             ),
           ),

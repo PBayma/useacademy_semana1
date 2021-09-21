@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'ui/pages/last_page.dart';
 
 import 'ui/pages/pages.dart';
+import 'ui/pages/result/result_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         '/first': (context) => const FirstQuestionPage(),
         '/second': (context) => const SecondQuestionPage(),
         '/third': (context) => const ThirdQuestionPage(),
-        '/last': (context) => const LastPage(),
+        '/last': (context) => const ResultPage(),
       },
       debugShowCheckedModeBanner: false,
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:useacademy_semana1/ui/widgets/custom_app_bar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,9 +21,8 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(
-        title: const Text('Perguntas e respostas'),
-        centerTitle: true,
+      appBar: const CustomAppBar(
+        title: 'Perguntas e respostas',
       ),
       body: Center(
         child: Container(

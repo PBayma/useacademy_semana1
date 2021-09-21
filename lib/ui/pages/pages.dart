@@ -1,4 +1,4 @@
-export 'first_question_page.dart';
-export 'home_page.dart';
-export 'second_question_page.dart';
-export 'third_question_page.dart';
+export 'home/home_page.dart';
+export 'questions/first_question_page.dart';
+export 'questions/second_question_page.dart';
+export 'questions/third_question_page.dart';
